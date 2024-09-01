@@ -108,7 +108,7 @@ php artisan vendor:publish --tag=zeus-bolt-config
 
 ### Custom User Model:
 
-By default Bolt will user this model to get the user info:
+By default Bolt will use the default Laravle user model to get the user info:
 
 `config('auth.providers.users.model')`
 
