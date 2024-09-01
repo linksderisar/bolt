@@ -32,7 +32,9 @@ class ManageResponses extends ManageRelatedRecords
 
     public function table(Table $table): Table
     {
-        $getUserModel = config('auth.providers.users.model')::getBoltUserFullNameAttribute();
+        //todo refactor with v4
+        $userModel = BoltPlugin::getModel('User') ?? config('auth.providers.users.model');
+        $getUserModel = $userModel::getBoltUserFullNameAttribute();
 
         $mainColumns = [
             ImageColumn::make('user.avatar')

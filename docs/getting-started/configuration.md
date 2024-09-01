@@ -30,6 +30,7 @@ BoltPlugin::make()
         'FormsStatus' => \App\Models\Bolt\FormsStatus::class,
         'Response' => \App\Models\Bolt\Response::class,
         'Section' => \App\Models\Bolt\Section::class,
+        'User' => \App\Models\Staff::class,
     ])
     
     // make the actions floating in create and edit forms
@@ -103,4 +104,19 @@ to publish the configuration:
 
 ```bash
 php artisan vendor:publish --tag=zeus-bolt-config
+```
+
+### Custom User Model:
+
+By default Bolt will user this model to get the user info:
+
+`config('auth.providers.users.model')`
+
+if you need to change this to use another model, add the following in your config file: `zeus-bolt.php`:
+
+```php
+'models' => [
+    //...
+    'User' => AnotherUserModel::class,
+],
 ```

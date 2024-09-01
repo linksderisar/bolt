@@ -114,7 +114,7 @@ class Form extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(config('auth.providers.users.model'));
+        return $this->belongsTo(config('zeus-bolt.models.User') ?? config('auth.providers.users.model'));
     }
 
     /** @phpstan-return BelongsTo<Form, Category> */

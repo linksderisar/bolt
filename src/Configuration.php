@@ -65,12 +65,12 @@ trait Configuration
         return $this->boltModels;
     }
 
-    public static function getModel(string $model): string
+    public static function getModel(string $model): ?string
     {
         return array_merge(
             config('zeus-bolt.models'),
             (new static)::get()->getBoltModels()
-        )[$model];
+        )[$model] ?? null;
     }
 
     public function navigationGroupLabel(Closure | string $label): static

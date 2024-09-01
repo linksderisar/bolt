@@ -36,6 +36,7 @@ return [
         'FormsStatus' => \LaraZeus\Bolt\Models\FormsStatus::class,
         'Response' => \LaraZeus\Bolt\Models\Response::class,
         'Section' => \LaraZeus\Bolt\Models\Section::class,
+        'User' => config('auth.providers.users.model'),
     ],
 
     'collectors' => [

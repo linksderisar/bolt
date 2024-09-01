@@ -6,6 +6,7 @@ use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 use Illuminate\Database\Eloquent\Model;
+use LaraZeus\Bolt\BoltPlugin;
 use LaraZeus\Bolt\Models\Field;
 use LaraZeus\Bolt\Models\Response;
 
@@ -18,7 +19,9 @@ class ResponseExporter extends Exporter
     public static function getColumns(): array
     {
         $record = \Livewire\Livewire::current()->getRecord();
-        $getUserModel = config('auth.providers.users.model')::getBoltUserFullNameAttribute();
+        //todo refactor with v4
+        $userModel = BoltPlugin::getModel('User') ?? config('auth.providers.users.model');
+        $getUserModel = $userModel::getBoltUserFullNameAttribute();
         $mainColumns = [
             ExportColumn::make('user.' . $getUserModel)
                 ->label(__('Name'))
