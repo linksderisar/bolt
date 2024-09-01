@@ -2,6 +2,29 @@
 
 All notable changes to `Bolt` will be documented in this file
 
+## v3.0.65 - 2024-09-01
+
+### What's Changed
+
+* feat: custom user model by @atmonshi in https://github.com/lara-zeus/bolt/pull/324
+
+#### Custom User Model:
+
+By default Bolt will use this model to get the user info:
+
+`config('auth.providers.users.model')`
+
+if you need to change this to use another model, add the following in your config file: `zeus-bolt.php`:
+
+```php
+'models' => [
+    //...
+    'User' => AnotherUserModel::class,
+],
+
+```
+**Full Changelog**: https://github.com/lara-zeus/bolt/compare/v3.0.64...v3.0.65
+
 ## v3.0.64 - 2024-08-23
 
 ### What's Changed
@@ -542,7 +565,6 @@ and you can remove the fork for `alperenersoy/filament-export`
 - @grafst made their first contribution in https://github.com/lara-zeus/bolt/pull/107
 **Full Changelog**: https://github.com/lara-zeus/bolt/compare/1.2.10...1.2.11
 ## 1.2.10 - 2023-07-13
-
 ### What's Changed
 
 - allow to toggle Conditional Visibility by a toggle field by @atmonshi in https://github.com/lara-zeus/bolt/pull/101
