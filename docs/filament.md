@@ -49,7 +49,7 @@ Bolt is a form builder for your users, with so many use cases included a UI for 
 
 **✨ to learn more about Bolt the form builder, please visit:**
 
-- [Discord](https://discord.com/channels/883083792112300104/1121563279668555897)
+- [Discord](https://discord.com/channels/883083792112300104/1282746904303894579)
 - [Docs](https://larazeus.com/docs/bolt)
 - [Github](https://github.com/lara-zeus/bolt)
 - [Demo](https://demo.larazeus.com)

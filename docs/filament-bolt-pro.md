@@ -42,9 +42,9 @@ You will need a separate license for the Advanced Tables plugin to activate thes
 
 ## More Details
 
-**✨ to learn more about Bolt Bro, please visit:**
+**✨ to learn more about Bolt Pro, please visit:**
 
-- [Discord](https://discord.com/channels/883083792112300104/1121563279668555897)
+- [Discord](https://discord.com/channels/883083792112300104/1282748203376050309)
 - [Docs](https://larazeus.com/docs/bolt/v2/bolt-pro)
 - [Demo](https://demo.larazeus.com/admin/forms/bolt-pro)
 

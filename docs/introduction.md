@@ -9,7 +9,7 @@ included a UI for the frontend built with filament
 
 For example, you can use it as a job board, appointments, ticketing, survey, and even [more use cases](/docs/bolt/v2/usage/use-cases).
 
-**[Demo](https://demo.larazeus.com/admin/forms) · [Github](https://github.com/lara-zeus/bolt) · [Discord](https://discord.com/channels/883083792112300104/1121563279668555897)**
+**[Demo](https://demo.larazeus.com/admin/forms) · [Github](https://github.com/lara-zeus/bolt) · [Discord](https://discord.com/channels/883083792112300104/1282746904303894579)**
 
 ## Features
 - 🔥 zero configuration, just composer it. but highly customizable
@@ -51,6 +51,6 @@ For example, you can use it as a job board, appointments, ticketing, survey, and
 
 Available support channels:
 
-* Join our channel in discord [Discord](https://discord.com/channels/883083792112300104/1121563279668555897)
+* Join our channel on [Discord](https://discord.com/channels/883083792112300104/1282746904303894579)
 * open an issue on [GitHub](https://github.com/lara-zeus/bolt/issues)
 * Email us using the [contact center](https://larazeus.com/contact-us)

@@ -7,7 +7,7 @@ return [
     'domain' => null,
 
     /**
-     * set the default path for the blog homepage.
+     * set the default path for the forms homepage.
      */
     'prefix' => 'bolt',
 
