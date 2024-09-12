@@ -18,6 +18,7 @@ use LaraZeus\Bolt\Contracts\Fields;
 use LaraZeus\Bolt\Facades\Bolt;
 use LaraZeus\Bolt\Models\Field;
 use LaraZeus\Bolt\Models\FieldResponse;
+use Illuminate\Support\Facades\Cache;
 use LaraZeus\Bolt\Models\Response;
 use LaraZeus\BoltPro\Models\Field as FieldPreset;
 
@@ -165,21 +166,29 @@ abstract class FieldsContract implements Arrayable, Fields
 
         $response = Arr::wrap($response);
 
-        // to not braking old dataSource structure
-        if ((int) $field->options['dataSource'] !== 0) {
-            $response = BoltPlugin::getModel('Collection')::query()
-                ->find($field->options['dataSource'])
-                ?->values
-                ->whereIn('itemKey', $response)
-                ->pluck('itemValue')
-                ->join(', ') ?? '';
-        } else {
+        $dataSource = (int) $field->options['dataSource'] ?? $field->options['dataSource'];
+        $cacheKey = 'dataSource_' . $dataSource . '_response_' . md5(serialize($response));
+
+        $response = Cache::remember($cacheKey, 30 , function () use ($field, $response, $dataSource) {
+
+            // Handle case when dataSource is not zero (new structure)
+            if ($dataSource !== 0) {
+                return BoltPlugin::getModel('Collection')::query()
+                    ->find($dataSource)
+                    ?->values
+                    ->whereIn('itemKey', $response)
+                    ->pluck('itemValue')
+                    ->join(', ') ?? '';
+            }
+
+            // Handle case when dataSource is zero (old structure)
             $dataSourceClass = new $field->options['dataSource'];
-            $response = $dataSourceClass->getQuery()
+
+            return $dataSourceClass->getQuery()
                 ->whereIn($dataSourceClass->getKeysUsing(), $response)
                 ->pluck($dataSourceClass->getValuesUsing())
                 ->join(', ');
-        }
+        });
 
         return (is_array($response)) ? implode(', ', $response) : $response;
     }
