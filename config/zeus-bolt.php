@@ -64,7 +64,7 @@ return [
     'allow_design' => false,
 
     /**
-     * since `collections` have many types, we cannot lazy load them
+     * since `collections` or 'data sources' have many types, we cannot lazy load them
      * but we cache them for a while to get better performance
      * the key is: dataSource_*_response_md5
      *
