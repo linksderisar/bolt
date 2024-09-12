@@ -169,7 +169,7 @@ abstract class FieldsContract implements Arrayable, Fields
         $dataSource = (int) $field->options['dataSource'] ?? $field->options['dataSource'];
         $cacheKey = 'dataSource_' . $dataSource . '_response_' . md5(serialize($response));
 
-        $response = Cache::remember($cacheKey, 30 , function () use ($field, $response, $dataSource) {
+        $response = Cache::remember($cacheKey, config('zeus-bolt.cache.collection_values') , function () use ($field, $response, $dataSource) {
 
             // Handle case when dataSource is not zero (new structure)
             if ($dataSource !== 0) {
