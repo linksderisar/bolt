@@ -11,6 +11,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use LaraZeus\Bolt\BoltPlugin;
 use LaraZeus\Bolt\Concerns\HasHiddenOptions;
 use LaraZeus\Bolt\Concerns\HasOptions;
@@ -18,7 +19,6 @@ use LaraZeus\Bolt\Contracts\Fields;
 use LaraZeus\Bolt\Facades\Bolt;
 use LaraZeus\Bolt\Models\Field;
 use LaraZeus\Bolt\Models\FieldResponse;
-use Illuminate\Support\Facades\Cache;
 use LaraZeus\Bolt\Models\Response;
 use LaraZeus\BoltPro\Models\Field as FieldPreset;
 
@@ -166,12 +166,12 @@ abstract class FieldsContract implements Arrayable, Fields
 
         $response = Arr::wrap($response);
 
-        $dataSource = (int) $field->options['dataSource'] ?? $field->options['dataSource'];
+        $dataSource = (int) $field->options['dataSource'];
         $cacheKey = 'dataSource_' . $dataSource . '_response_' . md5(serialize($response));
 
-        $response = Cache::remember($cacheKey, config('zeus-bolt.cache.collection_values') , function () use ($field, $response, $dataSource) {
+        $response = Cache::remember($cacheKey, config('zeus-bolt.cache.collection_values'), function () use ($field, $response, $dataSource) {
 
-            // Handle case when dataSource is not zero (new structure)
+            // Handle case when dataSource is from the default model: `Collection`
             if ($dataSource !== 0) {
                 return BoltPlugin::getModel('Collection')::query()
                     ->find($dataSource)
@@ -181,13 +181,17 @@ abstract class FieldsContract implements Arrayable, Fields
                     ->join(', ') ?? '';
             }
 
-            // Handle case when dataSource is zero (old structure)
-            $dataSourceClass = new $field->options['dataSource'];
+            // Handle case when dataSource is custom model class
+            if (class_exists($field->options['dataSource'])) {
+                $dataSourceClass = app($field->options['dataSource']);
 
-            return $dataSourceClass->getQuery()
-                ->whereIn($dataSourceClass->getKeysUsing(), $response)
-                ->pluck($dataSourceClass->getValuesUsing())
-                ->join(', ');
+                return $dataSourceClass->getQuery()
+                    ->whereIn($dataSourceClass->getKeysUsing(), $response)
+                    ->pluck($dataSourceClass->getValuesUsing())
+                    ->join(', ');
+            }
+
+            return '';
         });
 
         return (is_array($response)) ? implode(', ', $response) : $response;
