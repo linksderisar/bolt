@@ -2,6 +2,14 @@
 
 All notable changes to `Bolt` will be documented in this file
 
+## v3.0.66 - 2024-09-13
+
+### What's Changed
+
+* [Feat] : Implement caching mechanism for collection queries by @mohaphez in https://github.com/lara-zeus/bolt/pull/327
+
+**Full Changelog**: https://github.com/lara-zeus/bolt/compare/v3.0.65...v3.0.66
+
 ## v3.0.65 - 2024-09-01
 
 ### What's Changed
@@ -21,6 +29,7 @@ if you need to change this to use another model, add the following in your confi
     //...
     'User' => AnotherUserModel::class,
 ],
+
 
 ```
 **Full Changelog**: https://github.com/lara-zeus/bolt/compare/v3.0.64...v3.0.65
@@ -566,7 +575,6 @@ and you can remove the fork for `alperenersoy/filament-export`
 **Full Changelog**: https://github.com/lara-zeus/bolt/compare/1.2.10...1.2.11
 ## 1.2.10 - 2023-07-13
 ### What's Changed
-
 - allow to toggle Conditional Visibility by a toggle field by @atmonshi in https://github.com/lara-zeus/bolt/pull/101
 - fix sections ID when display the form as a wizard by @atmonshi in https://github.com/lara-zeus/bolt/pull/102
 - Embed by @atmonshi in https://github.com/lara-zeus/bolt/pull/103
