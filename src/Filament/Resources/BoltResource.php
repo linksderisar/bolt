@@ -21,8 +21,5 @@ class BoltResource extends Resource
         return BoltPlugin::get()->getNavigationGroupLabel();
     }
 
-    public static function getGloballySearchableAttributes(): array
-    {
-        return BoltPlugin::get()->getGlobalAttributes(static::class);
-    }
+
 }

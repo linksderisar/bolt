@@ -20,7 +20,6 @@ use LaraZeus\Bolt\Facades\Bolt;
 use LaraZeus\Bolt\Models\Field;
 use LaraZeus\Bolt\Models\FieldResponse;
 use LaraZeus\Bolt\Models\Response;
-use LaraZeus\BoltPro\Models\Field as FieldPreset;
 
 /** @phpstan-return Arrayable<string,mixed> */
 abstract class FieldsContract implements Arrayable, Fields
@@ -86,18 +85,6 @@ abstract class FieldsContract implements Arrayable, Fields
         $component
             ->label($zeusField->name)
             ->id($htmlId)
-            ->hint(function () use ($zeusField) {
-                if (! Bolt::hasPro()) {
-                    return null;
-                }
-
-                //@phpstan-ignore-next-line
-                if (! $zeusField instanceof FieldPreset && $zeusField->section->form->extensions !== 'LaraZeus\\BoltPro\\Extensions\\Grades') {
-                    return null;
-                }
-
-                return optional($zeusField->options)['grades']['points'] ?? 0 . ' ' . __('marks');
-            })
             ->helperText($zeusField->description);
 
         if (optional($zeusField->options)['is_required']) {
@@ -198,7 +185,7 @@ abstract class FieldsContract implements Arrayable, Fields
     }
 
     //@phpstan-ignore-next-line
-    public static function getFieldCollectionItemsList(Field | FieldPreset | array $zeusField): Collection | array
+    public static function getFieldCollectionItemsList(Field  | array $zeusField): Collection | array
     {
         if (is_array($zeusField)) {
             $zeusField = (object) $zeusField;
@@ -211,43 +198,13 @@ abstract class FieldsContract implements Arrayable, Fields
             return $getCollection;
         }
 
-        //@phpstan-ignore-next-line
-        if ($zeusField instanceof FieldPreset && is_string($zeusField->options)) {
+        if (class_exists($zeusField->options['dataSource'])) {
             //@phpstan-ignore-next-line
-            $zeusField->options = json_decode($zeusField->options, true);
-        }
-
-        // to not braking old dataSource structure
-        //@phpstan-ignore-next-line
-        if ((int) $zeusField->options['dataSource'] !== 0) {
-            //@phpstan-ignore-next-line
-            if ($zeusField instanceof FieldPreset) {
-                //@phpstan-ignore-next-line
-                $getCollection = \LaraZeus\BoltPro\Models\Collection::query()
-                    //@phpstan-ignore-next-line
-                    ->find($zeusField->options['dataSource'] ?? 0)
-                    ->values;
-                //@phpstan-ignore-next-line
-                $getCollection = collect(json_decode($getCollection, true))
-                    ->pluck('itemValue', 'itemKey');
-            } else {
-                $getCollection = BoltPlugin::getModel('Collection')::query()
-                    ->find($zeusField->options['dataSource'] ?? 0);
-                if ($getCollection === null) {
-                    $getCollection = collect();
-                } else {
-                    $getCollection = $getCollection->values->pluck('itemValue', 'itemKey');
-                }
-            }
-        } else {
-            if (class_exists($zeusField->options['dataSource'])) {
-                //@phpstan-ignore-next-line
-                $dataSourceClass = new $zeusField->options['dataSource'];
-                $getCollection = $dataSourceClass->getQuery()->pluck(
-                    $dataSourceClass->getValuesUsing(),
-                    $dataSourceClass->getKeysUsing()
-                );
-            }
+            $dataSourceClass = new $zeusField->options['dataSource'];
+            $getCollection = $dataSourceClass->getQuery()->pluck(
+                $dataSourceClass->getValuesUsing(),
+                $dataSourceClass->getKeysUsing()
+            );
         }
 
         return $getCollection;

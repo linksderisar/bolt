@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create(config('zeus-bolt.table-prefix').'responses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('form_id')->constrained(config('zeus-bolt.table-prefix').'forms');
-            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('user_id')->nullable();
             $table->string('status')->default('NEW');
             $table->text('notes')->nullable();
             $table->timestamps();

@@ -29,7 +29,6 @@ use LaraZeus\Accordion\Forms\Accordion;
 use LaraZeus\Accordion\Forms\Accordions;
 use LaraZeus\Bolt\BoltPlugin;
 use LaraZeus\Bolt\Facades\Bolt;
-use LaraZeus\Bolt\Models\Category;
 
 trait Schemata
 {
@@ -98,7 +97,7 @@ trait Schemata
     public static function getMainFormSchema(): array
     {
         return [
-            Hidden::make('user_id')->default(auth()->user()->id ?? null),
+
 
             Tabs::make('form-tabs')
                 ->tabs(static::getTabsSchema())
@@ -172,39 +171,6 @@ trait Schemata
                         ->rules(['alpha_dash'])
                         ->unique(ignoreRecord: true)
                         ->label(__('Form Slug')),
-
-                    Select::make('category_id')
-                        ->label(__('Category'))
-                        ->searchable()
-                        ->preload()
-                        ->relationship(
-                            'category',
-                            'name',
-                            modifyQueryUsing: function (Builder $query) {
-                                if (Filament::getTenant() === null) {
-                                    return $query;
-                                }
-
-                                return BoltPlugin::getModel('Category')::query()->whereBelongsTo(Filament::getTenant());
-                            },
-                        )
-                        ->helperText(__('optional, organize your forms into categories'))
-                        ->createOptionForm([
-                            TextInput::make('name')
-                                ->required()
-                                ->maxLength(255)
-                                ->live(onBlur: true)
-                                ->label(__('Name'))
-                                ->afterStateUpdated(function (Set $set, $state, $context) {
-                                    if ($context === 'edit') {
-                                        return;
-                                    }
-                                    $set('slug', Str::slug($state));
-                                }),
-                            TextInput::make('slug')->required()->maxLength(255)->label(__('slug')),
-                        ])
-                        ->createOptionAction(fn (Action $action) => $action->hidden(auth()->user()->cannot('create', BoltPlugin::getModel('Category'))))
-                        ->getOptionLabelFromRecordUsing(fn (Category $record) => $record->name),
                 ]),
 
             Tabs\Tab::make('text-details-tab')

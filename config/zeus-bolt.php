@@ -28,7 +28,6 @@ return [
      * ->skyModels([ ... ])
      */
     'models' => [
-        'Category' => \LaraZeus\Bolt\Models\Category::class,
         'Collection' => \LaraZeus\Bolt\Models\Collection::class,
         'Field' => \LaraZeus\Bolt\Models\Field::class,
         'FieldResponse' => \LaraZeus\Bolt\Models\FieldResponse::class,

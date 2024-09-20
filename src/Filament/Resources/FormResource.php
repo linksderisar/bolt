@@ -173,9 +173,7 @@ class FormResource extends BoltResource
                     ->query(fn (Builder $query): Builder => $query->where('is_active', false))
                     ->label(__('Inactive')),
 
-                SelectFilter::make('category_id')
-                    ->options(BoltPlugin::getModel('Category')::pluck('name', 'id'))
-                    ->label(__('Category')),
+
             ])
             ->bulkActions([
                 DeleteBulkAction::make(),
@@ -200,80 +198,32 @@ class FormResource extends BoltResource
             'create' => Pages\CreateForm::route('/create'),
             'edit' => Pages\EditForm::route('/{record}/edit'),
             'view' => Pages\ViewForm::route('/{record}'),
-            'report' => Pages\ManageResponses::route('/{record}/report'),
-            'browse' => Pages\BrowseResponses::route('/{record}/browse'),
-            'viewResponse' => Pages\ViewResponse::route('/{record}/response/{responseID}'),
         ];
 
-        if (Bolt::hasPro()) {
-            //@phpstan-ignore-next-line
-            $pages['prefilled'] = \LaraZeus\BoltPro\Livewire\PrefilledForm::route('/{record}/prefilled');
-            //@phpstan-ignore-next-line
-            $pages['share'] = \LaraZeus\BoltPro\Livewire\ShareForm::route('/{record}/share');
-        }
+
 
         return $pages;
     }
 
     public static function getWidgets(): array
     {
-        $widgets = [
+        return [
             FormResource\Widgets\FormOverview::class,
-            FormResource\Widgets\ResponsesPerMonth::class,
-            FormResource\Widgets\ResponsesPerStatus::class,
-            FormResource\Widgets\ResponsesPerFields::class,
         ];
-
-        if (Bolt::hasPro()) {
-            //@phpstan-ignore-next-line
-            $widgets[] = \LaraZeus\BoltPro\Widgets\ResponsesPerCollection::class;
-        }
-
-        return $widgets;
     }
 
     public static function getActions(): array
     {
-        $action = [
+        $actions = [
             ViewAction::make(),
             EditAction::make('edit'),
             ReplicateFormAction::make(),
             RestoreAction::make(),
             DeleteAction::make(),
             ForceDeleteAction::make(),
-
-            ActionGroup::make([
-                Action::make('entries')
-                    ->color('warning')
-                    ->label(__('Entries'))
-                    ->icon('clarity-data-cluster-line')
-                    ->tooltip(__('view all entries'))
-                    ->url(fn (ZeusForm $record): string => FormResource::getUrl('report', ['record' => $record])),
-            ])
-                ->dropdown(false),
         ];
 
-        $advancedActions = $moreActions = [];
-
-        if (Bolt::hasPro()) {
-            $advancedActions[] = Action::make('prefilledLink')
-                ->label(__('Prefilled Link'))
-                ->icon('iconpark-formone-o')
-                ->tooltip(__('Get Prefilled Link'))
-                ->visible(Bolt::hasPro())
-                ->url(fn (ZeusForm $record): string => FormResource::getUrl('prefilled', ['record' => $record]));
-        }
-
-        if (class_exists(\LaraZeus\Helen\HelenServiceProvider::class)) {
-            //@phpstan-ignore-next-line
-            $advancedActions[] = \LaraZeus\Helen\Actions\ShortUrlAction::make('get-link')
-                ->label(__('Short Link'))
-                ->distUrl(fn (ZeusForm $record) => route('bolt.form.show', $record));
-        }
-
-        $moreActions[] = ActionGroup::make($advancedActions)->dropdown(false);
-
-        return [ActionGroup::make(array_merge($action, $moreActions))];
+        return [ActionGroup::make($actions)];
     }
 
     public static function getRecordSubNavigation(Page $page): array
@@ -283,19 +233,6 @@ class FormResource extends BoltResource
             Pages\EditForm::class,
         ];
 
-        if (Bolt::hasPro()) {
-            //@phpstan-ignore-next-line
-            $formNavs[] = \LaraZeus\BoltPro\Livewire\ShareForm::class;
-        }
-
-        $respNavs = [
-            Pages\ManageResponses::class,
-            Pages\BrowseResponses::class,
-        ];
-
-        return $page->generateNavigationItems([
-            ...$formNavs,
-            ...$respNavs,
-        ]);
+        return $page->generateNavigationItems($formNavs);
     }
 }

@@ -117,11 +117,6 @@ class Form extends Model
         return $this->belongsTo(config('zeus-bolt.models.User') ?? config('auth.providers.users.model'));
     }
 
-    /** @phpstan-return BelongsTo<Form, Category> */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(config('zeus-bolt.models.Category'));
-    }
 
     /** @phpstan-return hasMany<Section> */
     public function sections(): HasMany
