@@ -26,6 +26,7 @@ class CollectionResource extends BoltResource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+
     public static function getModel(): string
     {
         return BoltPlugin::getModel('Collection');
@@ -42,7 +43,7 @@ class CollectionResource extends BoltResource
 
     public static function getModelLabel(): string
     {
-        return __('Collection');
+        return __('Data collection');
     }
 
     public static function getPluralModelLabel(): string

@@ -19,13 +19,7 @@ class ListForms extends ListRecords
         $actions = [
             Actions\LocaleSwitcher::make(),
             Actions\CreateAction::make('create'),
-            Action::make('open')
-                ->label(__('Open'))
-                ->icon('heroicon-o-arrow-top-right-on-square')
-                ->tooltip(__('open all forms'))
-                ->color('warning')
-                ->url(fn () => route('bolt.forms.list'))
-                ->openUrlInNewTab(),
+
         ];
 
         if (Bolt::hasPro()) {

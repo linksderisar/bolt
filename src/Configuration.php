@@ -28,7 +28,7 @@ trait Configuration
     /**
      * the resources navigation group
      */
-    protected Closure | string $navigationGroupLabel = 'Bolt';
+    protected Closure | string $navigationGroupLabel = 'Forms';
 
     protected bool $formActionsAreSticky = false;
 

@@ -2,7 +2,6 @@
 
 namespace LaraZeus\Bolt\Concerns;
 
-use Filament\Facades\Filament;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DateTimePicker;
@@ -23,7 +22,6 @@ use Filament\Forms\Components\ViewField;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Guava\FilamentIconPicker\Forms\IconPicker;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use LaraZeus\Accordion\Forms\Accordion;
 use LaraZeus\Accordion\Forms\Accordions;
@@ -97,7 +95,6 @@ trait Schemata
     public static function getMainFormSchema(): array
     {
         return [
-
 
             Tabs::make('form-tabs')
                 ->tabs(static::getTabsSchema())
@@ -199,16 +196,6 @@ trait Schemata
                                 ->label(__('Is Active'))
                                 ->default(1)
                                 ->helperText(__('Activate the form and let users start submissions')),
-                            Toggle::make('options.require-login')
-                                ->label(__('require Login'))
-                                ->helperText(__('User must be logged in or create an account before can submit a new entry'))
-                                ->live(),
-                            Toggle::make('options.one-entry-per-user')
-                                ->label(__('One Entry Per User'))
-                                ->helperText(__('to check if the user already submitted an entry in this form'))
-                                ->visible(function (Get $get) {
-                                    return $get('options.require-login');
-                                }),
                         ]),
                     Grid::make()
                         ->columnSpan(1)

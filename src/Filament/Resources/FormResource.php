@@ -193,16 +193,12 @@ class FormResource extends BoltResource
 
     public static function getPages(): array
     {
-        $pages = [
+        return [
             'index' => Pages\ListForms::route('/'),
             'create' => Pages\CreateForm::route('/create'),
             'edit' => Pages\EditForm::route('/{record}/edit'),
             'view' => Pages\ViewForm::route('/{record}'),
         ];
-
-
-
-        return $pages;
     }
 
     public static function getWidgets(): array

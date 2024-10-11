@@ -5,7 +5,6 @@ namespace LaraZeus\Bolt;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
-use LaraZeus\Bolt\Filament\Resources\CategoryResource;
 use LaraZeus\Bolt\Filament\Resources\CollectionResource;
 use LaraZeus\Bolt\Filament\Resources\FormResource;
 
@@ -41,6 +40,5 @@ final class BoltPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        //
     }
 }
