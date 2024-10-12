@@ -8,6 +8,7 @@ use LaraZeus\Bolt\Commands\ZeusDatasourceCommand;
 use LaraZeus\Bolt\Commands\ZeusFieldCommand;
 use LaraZeus\Bolt\Livewire\FillForms;
 
+use LaraZeus\Bolt\Livewire\PreviewForm;
 use LaraZeus\Core\CoreServiceProvider;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
@@ -34,6 +35,7 @@ class BoltServiceProvider extends PackageServiceProvider
         CoreServiceProvider::setThemePath('bolt');
 
         Livewire::component('bolt.fill-form', FillForms::class);
+        Livewire::component('bolt.preview-form', PreviewForm::class);
     }
 
     /**

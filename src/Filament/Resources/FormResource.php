@@ -82,51 +82,6 @@ class FormResource extends BoltResource
         return __('Forms');
     }
 
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Section::make()->schema([
-                    TextEntry::make('name')
-                        ->label(__('name')),
-
-                    ListEntry::make('items')
-                        ->visible(fn (ZeusForm $record) => $record->extensions !== null)
-                        ->heading(__('Form Links'))
-                        ->list()
-                        ->state(fn ($record) => $record->slug_url),
-
-                    TextEntry::make('slug')
-                        ->label(__('slug'))
-                        ->url(fn (ZeusForm $record) => route('bolt.form.show', ['slug' => $record->slug]))
-                        ->visible(fn (ZeusForm $record) => $record->extensions === null)
-                        ->icon('heroicon-o-arrow-top-right-on-square')
-                        ->openUrlInNewTab(),
-
-                    TextEntry::make('description')
-                        ->label(__('description')),
-                    IconEntry::make('is_active')
-                        ->label(__('is active'))
-                        ->icon(fn (string $state): string => match ($state) {
-                            '0' => 'clarity-times-circle-solid',
-                            default => 'clarity-check-circle-line',
-                        })
-                        ->color(fn (string $state): string => match ($state) {
-                            '0' => 'warning',
-                            '1' => 'success',
-                            default => 'gray',
-                        }),
-
-                    TextEntry::make('start_date')
-                        ->label(__('start date'))
-                        ->dateTime(),
-                    TextEntry::make('end_date')
-                        ->label(__('end date'))
-                        ->dateTime(),
-                ])
-                    ->columns(),
-            ]);
-    }
 
     public static function form(Form $form): Form
     {
@@ -155,8 +110,6 @@ class FormResource extends BoltResource
                 TextColumn::make('name')->searchable()->sortable()->label(__('Form Name'))->toggleable(),
                 TextColumn::make('category.name')->searchable()->label(__('Category'))->sortable()->toggleable(),
                 IconColumn::make('is_active')->boolean()->label(__('Is Active'))->sortable()->toggleable(),
-                TextColumn::make('start_date')->dateTime()->searchable()->sortable()->label(__('Start Date'))->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('end_date')->dateTime()->searchable()->sortable()->label(__('End Date'))->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('responses_exists')->boolean()->exists('responses')->label(__('Responses Exists'))->sortable()->toggleable()->searchable(false),
                 TextColumn::make('responses_count')->counts('responses')->label(__('Responses Count'))->sortable()->toggleable()->searchable(false),
             ])
@@ -197,7 +150,6 @@ class FormResource extends BoltResource
             'index' => Pages\ListForms::route('/'),
             'create' => Pages\CreateForm::route('/create'),
             'edit' => Pages\EditForm::route('/{record}/edit'),
-            'view' => Pages\ViewForm::route('/{record}'),
         ];
     }
 
@@ -211,7 +163,6 @@ class FormResource extends BoltResource
     public static function getActions(): array
     {
         $actions = [
-            ViewAction::make(),
             EditAction::make('edit'),
             ReplicateFormAction::make(),
             RestoreAction::make(),
@@ -222,13 +173,5 @@ class FormResource extends BoltResource
         return [ActionGroup::make($actions)];
     }
 
-    public static function getRecordSubNavigation(Page $page): array
-    {
-        $formNavs = [
-            Pages\ViewForm::class,
-            Pages\EditForm::class,
-        ];
 
-        return $page->generateNavigationItems($formNavs);
-    }
 }

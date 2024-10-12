@@ -25,8 +25,6 @@ class FormFactory extends Factory
                 'show-as' => 'page',
                 'emails-notification' => null,
             ],
-            'start_date' => $this->faker->dateTime(),
-            'end_date' => $this->faker->dateTime(),
             'created_at' => now(),
             'updated_at' => now(),
             'deleted_at' => null,

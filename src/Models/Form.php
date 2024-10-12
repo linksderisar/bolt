@@ -26,11 +26,6 @@ use Spatie\Translatable\HasTranslations;
  * @property string $description
  * @property array $options
  * @property string $extensions
- * @property string $start_date
- * @property string $end_date
- * @property bool $date_available
- * @property bool $need_login
- * @property bool $onePerUser
  * @property mixed $sections
  * @property mixed $fields
  * @property int $user_id
@@ -53,8 +48,6 @@ class Form extends Model
     ];
 
     protected $casts = [
-        'start_date' => 'datetime',
-        'end_date' => 'datetime',
         'options' => 'array',
         'user_id' => 'integer',
     ];
@@ -142,41 +135,8 @@ class Form extends Model
         return $this->hasMany(config('zeus-bolt.models.FieldResponse'));
     }
 
-    /**
-     * Check if the form dates is available.
-     *
-     * @return Attribute<string, never>
-     */
-    protected function dateAvailable(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->start_date === null ||
-                (
-                    $this->start_date !== null
-                    && $this->end_date !== null
-                    && now()->between($this->start_date, $this->end_date)
-                ),
-        );
-    }
 
-    /**
-     * Check if the form require login.
-     *
-     * @return Attribute<string, never>
-     */
-    protected function needLogin(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => optional($this->options)['require-login'] && ! auth()->check(),
-        );
-    }
 
-    public function onePerUser(): bool
-    {
-        return optional($this->options)['require-login']
-            && optional($this->options)['one-entry-per-user']
-            && $this->responses()->where('user_id', auth()->user()->id)->exists();
-    }
 
     protected function slugUrl(): Attribute
     {

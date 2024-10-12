@@ -24,7 +24,7 @@ class FieldFactory extends Factory
             'ordering' => $this->faker->numberBetween(1, 10),
             'options' => [
                 'visibility' => [
-                    'active' => false,
+                    'active' => true,
                     'fieldID' => null,
                     'values' => null,
                 ],

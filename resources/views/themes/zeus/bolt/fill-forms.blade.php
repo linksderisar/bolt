@@ -12,15 +12,7 @@
                 <h2>{{ $zeusForm->name ?? '' }}</h2>
                 <p class="text-gray-400 text-mdd my-2">{{ $zeusForm->description ?? '' }}</p>
 
-                @if($zeusForm->start_date !== null)
-                    <div class="text-gray-400 text-sm">
-                        @svg('heroicon-o-calendar','h-4 w-4 inline-flex')
-                        <span>{{ __('Available from') }}:</span>
-                        <span>{{ optional($zeusForm->start_date)->format(\Filament\Infolists\Infolist::$defaultDateDisplayFormat) }}</span>,
-                        <span>{{ __('to') }}:</span>
-                        <span>{{ optional($zeusForm->end_date)->format(\Filament\Infolists\Infolist::$defaultDateDisplayFormat) }}</span>
-                    </div>
-                @endif
+
             </x-slot>
         @endif
 
@@ -54,17 +46,7 @@
                         {{ $zeusForm->description ?? '' }}
                     </h5>
                 @endif
-                @if($zeusForm->start_date !== null)
-                    <div class="text-custom-800 flex items-center justify-start gap-2 text-sm">
-                        @svg('heroicon-o-calendar','h-5 w-5 inline-flex')
-                        <span class="flex items-center justify-center gap-1">
-                            <span>{{ __('Available from') }}:</span>
-                            <span>{{ optional($zeusForm->start_date)->format(\Filament\Infolists\Infolist::$defaultDateDisplayFormat) }}</span>,
-                            <span>{{ __('to') }}:</span>
-                            <span>{{ optional($zeusForm->end_date)->format(\Filament\Infolists\Infolist::$defaultDateDisplayFormat) }}</span>
-                        </span>
-                    </div>
-                @endif
+
             </div>
         </div>
     @endif

@@ -21,11 +21,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('slug');
             $table->integer('ordering')->default(1);
-            $table->boolean('is_active');
             $table->longText('details')->nullable();
             $table->longText('options')->nullable();
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
             $table->text('extensions')->nullable();
             $table->timestamps();
             $table->softDeletes();

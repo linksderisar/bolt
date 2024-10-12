@@ -223,31 +223,6 @@ trait Schemata
                         ->default(1),
                 ]),
 
-            Tabs\Tab::make('advanced-tab')
-                ->label(__('Advanced'))
-                ->schema([
-                    Grid::make()
-                        ->columns()
-                        ->schema([
-                            Placeholder::make('form-dates')
-                                ->label(__('Form Dates'))
-                                ->content(__('optional, specify when the form will be active and receiving new entries'))
-                                ->columnSpanFull(),
-                            DateTimePicker::make('start_date')
-                                ->requiredWith('end_date')
-                                ->label(__('Start Date')),
-                            DateTimePicker::make('end_date')
-                                ->requiredWith('start_date')
-                                ->label(__('End Date')),
-                        ]),
-                    Grid::make()
-                        ->columns()
-                        ->schema([
-                            TextInput::make('options.emails-notification')
-                                ->label(__('Emails Notifications'))
-                                ->helperText(__('optional, enter the emails (comma separated) you want to receive notification when ever you got a new entry')),
-                        ]),
-                ]),
 
             Tabs\Tab::make('extensions-tab')
                 ->label(__('Extensions'))

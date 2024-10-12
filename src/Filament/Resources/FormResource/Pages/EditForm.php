@@ -38,8 +38,8 @@ class EditForm extends EditRecord
     {
         return [
             LocaleSwitcher::make(),
-            Action::make('open')
-                ->label(__('Open'))
+            Action::make('preview')
+                ->label(__('Preview'))
                 ->icon('heroicon-o-arrow-top-right-on-square')
                 ->tooltip(__('open form'))
                 ->color('warning')

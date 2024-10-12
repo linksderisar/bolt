@@ -123,14 +123,7 @@ class FillForms extends Component implements Forms\Contracts\HasForms
 
         $response->update(['extension_item_id' => $extensionItemId['itemId'] ?? null]);
 
-        if (isset($this->zeusForm->options['emails-notification']) && ! empty($this->zeusForm->options['emails-notification'])) {
-            $emails = explode(',', $this->zeusForm->options['emails-notification']);
 
-            foreach ($emails as $email) {
-                $mailable = config('zeus-bolt.defaultMailable');
-                Mail::to($email)->send(new $mailable($this->zeusForm, $response));
-            }
-        }
 
         $this->sent = true;
     }
@@ -148,12 +141,7 @@ class FillForms extends Component implements Forms\Contracts\HasForms
                 ->twitter();
         }
 
-        $view = match (true) {
-            $this->zeusForm->need_login => 'zeus::errors.login-required',
-            ! $this->zeusForm->date_available => 'zeus::errors.date-not-available',
-            $this->zeusForm->onePerUser() => 'zeus::errors.one-entry-per-user',
-            default => app('boltTheme') . '.fill-forms',
-        };
+        $view = app('boltTheme') . '.fill-forms';
 
         if ($this->inline) {
             return view($view);

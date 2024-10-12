@@ -9,7 +9,6 @@ trait HasHiddenOptions
     public static function hiddenVisibility(): array
     {
         return [
-            Hidden::make('options.visibility.active')->default(false),
             Hidden::make('options.visibility.fieldID'),
             Hidden::make('options.visibility.values'),
         ];
