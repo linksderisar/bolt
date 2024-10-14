@@ -232,27 +232,7 @@ trait Schemata
                         }),
                 ]),
 
-            Tabs\Tab::make('design')
-                ->label(__('Design'))
-                ->schema([
-                    ViewField::make('options.primary_color')
-                        ->hiddenLabel()
-                        ->view('zeus::filament.components.color-picker'),
-                    FileUpload::make('options.logo')
-                        ->disk(config('zeus-bolt.uploadDisk'))
-                        ->directory(config('zeus-bolt.uploadDirectory'))
-                        ->visibility(config('zeus-bolt.uploadVisibility'))
-                        ->image()
-                        ->imageEditor()
-                        ->label(__('Logo')),
-                    FileUpload::make('options.cover')
-                        ->disk(config('zeus-bolt.uploadDisk'))
-                        ->directory(config('zeus-bolt.uploadDirectory'))
-                        ->visibility(config('zeus-bolt.uploadVisibility'))
-                        ->image()
-                        ->imageEditor()
-                        ->label(__('Cover')),
-                ]),
+            
         ];
 
         $customSchema = Bolt::getCustomSchema('form');
