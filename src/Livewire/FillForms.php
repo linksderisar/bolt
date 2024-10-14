@@ -70,7 +70,6 @@ class FillForms extends Component implements Forms\Contracts\HasForms
         $this->zeusForm = config('zeus-bolt.models.Form')::query()
             ->with(['fields', 'sections.fields'])
             ->where('slug', $slug)
-            ->where('is_active', true)
             ->firstOrFail();
 
         $this->extensionData = Extensions::init($this->zeusForm, 'canView', ['extensionSlug' => $extensionSlug, 'extensionData' => $extensionData]) ?? [];
@@ -130,23 +129,12 @@ class FillForms extends Component implements Forms\Contracts\HasForms
 
     public function render(): View
     {
-        if (! $this->inline) {
-            seo()
-                ->title($this->zeusForm->name . ' - ' . __('Forms') . ' - ' . config('zeus.site_title', 'Laravel'))
-                ->description($this->zeusForm->description . ' - ' . config('zeus.site_description') . ' ' . config('zeus.site_title'))
-                ->site(config('zeus.site_title', 'Laravel'))
-                ->rawTag('favicon', '<link rel="icon" type="image/x-icon" href="' . asset('favicon/favicon.ico') . '">')
-                ->rawTag('<meta name="theme-color" content="' . config('zeus.site_color') . '" />')
-                ->withUrl()
-                ->twitter();
-        }
-
         $view = app('boltTheme') . '.fill-forms';
 
         if ($this->inline) {
             return view($view);
         }
 
-        return view($view)->layout(config('zeus.layout'));
+        return view($view)->layout(config('zeus-bolt.layout'));
     }
 }

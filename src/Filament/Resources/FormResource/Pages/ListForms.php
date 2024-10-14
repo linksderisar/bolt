@@ -16,18 +16,10 @@ class ListForms extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        $actions = [
+        return [
             Actions\LocaleSwitcher::make(),
             Actions\CreateAction::make('create'),
 
         ];
-
-        if (Bolt::hasPro()) {
-            //@phpstan-ignore-next-line
-            $actions[] = \LaraZeus\BoltPro\Actions\PresetAction::make('new from preset')
-                ->visible(config('zeus-bolt.show_presets'));
-        }
-
-        return $actions;
     }
 }

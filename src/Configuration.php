@@ -36,6 +36,7 @@ trait Configuration
 
     protected array $showNavigationBadgesArray = [];
 
+
     public function customSchema(array $schema): static
     {
         $this->customSchema = $schema;

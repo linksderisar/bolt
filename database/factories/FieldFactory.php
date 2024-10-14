@@ -28,6 +28,9 @@ class FieldFactory extends Factory
                     'fieldID' => null,
                     'values' => null,
                 ],
+                'maxLength'=> null,
+                'rows'=> 6,
+                'cols'=> 2,
                 'htmlId' => $this->faker->regexify('[A-Za-z0-9]{7}'),
                 'hint' => [
                     'text' => $this->faker->optional()->word(),

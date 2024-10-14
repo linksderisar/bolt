@@ -104,29 +104,14 @@ class FormResource extends BoltResource
     public static function table(Table $table): Table
     {
         return $table
-            ->reorderable('ordering')
             ->columns([
                 TextColumn::make('id')->sortable()->label(__('Form ID'))->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')->searchable()->sortable()->label(__('Form Name'))->toggleable(),
-                TextColumn::make('category.name')->searchable()->label(__('Category'))->sortable()->toggleable(),
-                IconColumn::make('is_active')->boolean()->label(__('Is Active'))->sortable()->toggleable(),
-                IconColumn::make('responses_exists')->boolean()->exists('responses')->label(__('Responses Exists'))->sortable()->toggleable()->searchable(false),
-                TextColumn::make('responses_count')->counts('responses')->label(__('Responses Count'))->sortable()->toggleable()->searchable(false),
+                TextColumn::make('slug')->searchable()->sortable()->label(__('Form Slug'))->toggleable(),
             ])
             ->actions(static::getActions())
             ->filters([
                 TrashedFilter::make(),
-                Filter::make('is_active')
-                    ->toggle()
-                    ->query(fn (Builder $query): Builder => $query->where('is_active', true))
-                    ->label(__('Is Active')),
-
-                Filter::make('not_active')
-                    ->toggle()
-                    ->query(fn (Builder $query): Builder => $query->where('is_active', false))
-                    ->label(__('Inactive')),
-
-
             ])
             ->bulkActions([
                 DeleteBulkAction::make(),
@@ -170,7 +155,15 @@ class FormResource extends BoltResource
             ForceDeleteAction::make(),
         ];
 
-        return [ActionGroup::make($actions)];
+        return [
+            Action::make('preview')
+            ->label(__('Preview'))
+            ->icon('heroicon-o-arrow-top-right-on-square')
+            ->tooltip(__('Feel free to click save in the form, it will show only the validation messages.'))
+            ->url(fn ($record) => route('bolt.form.show', $record))
+            ->openUrlInNewTab(),
+            ActionGroup::make($actions)
+        ];
     }
 
 

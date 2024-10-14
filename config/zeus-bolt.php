@@ -22,6 +22,8 @@ return [
      */
     'middleware' => ['web'],
 
+    'layout'=> 'zeus::components.app',
+
     /**
      * you can overwrite any model and use your own
      * you can also configure the model per panel in your panel provider using:

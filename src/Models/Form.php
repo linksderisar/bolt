@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use LaraZeus\Bolt\Concerns\HasActive;
 use LaraZeus\Bolt\Concerns\HasUpdates;
 use LaraZeus\Bolt\Database\Factories\FormFactory;
 use LaraZeus\Bolt\Facades\Extensions;
@@ -29,11 +28,9 @@ use Spatie\Translatable\HasTranslations;
  * @property mixed $sections
  * @property mixed $fields
  * @property int $user_id
- * @property int $ordering
  */
 class Form extends Model
 {
-    use HasActive;
     use HasFactory;
     use HasTranslations;
     use HasUpdates;

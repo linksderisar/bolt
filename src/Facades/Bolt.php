@@ -43,16 +43,6 @@ class Bolt extends Facade
                 $fields = $fields->merge($appFields);
             }
 
-            if (static::hasPro()) {
-                $boltProFields = Collectors::collectClasses(
-                    base_path('vendor/lara-zeus/bolt-pro/src/Fields'),
-                    'LaraZeus\\BoltPro\\Fields\\'
-                );
-
-                if ($boltProFields->isNotEmpty()) {
-                    $fields = $fields->merge($boltProFields);
-                }
-            }
 
             return $fields->sortBy('sort');
         });
@@ -113,10 +103,7 @@ class Bolt extends Facade
         return true;
     }
 
-    public static function hasPro(): bool
-    {
-        return class_exists(\LaraZeus\BoltPro\BoltProServiceProvider::class);
-    }
+
 
     public static function getCustomSchema(string $hook, ?FieldsContract $field = null): Tab | Accordion | null
     {

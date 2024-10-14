@@ -41,7 +41,7 @@ class EditForm extends EditRecord
             Action::make('preview')
                 ->label(__('Preview'))
                 ->icon('heroicon-o-arrow-top-right-on-square')
-                ->tooltip(__('open form'))
+                ->tooltip(__('Feel free to click save in the form, it will show only the validation messages.'))
                 ->color('warning')
                 ->url(fn () => route('bolt.form.show', $this->record))
                 ->openUrlInNewTab(),

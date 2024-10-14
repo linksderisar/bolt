@@ -111,8 +111,6 @@ trait Schemata
                 ->collapsed(fn (string $operation) => $operation === 'edit')
                 ->minItems(1)
                 ->extraItemActions([
-                    // @phpstan-ignore-next-line
-                    Bolt::hasPro() ? \LaraZeus\BoltPro\Actions\SectionMarkAction::make('marks') : null,
 
                     Action::make('options')
                         ->label(__('section options'))
@@ -175,7 +173,7 @@ trait Schemata
                 ->schema([
                     Textarea::make('description')
                         ->label(__('Form Description'))
-                        ->helperText(__('shown under the title of the form and used in SEO')),
+                        ->helperText(__('shown under the title of the form.')),
                     RichEditor::make('details')
                         ->label(__('Form Details'))
                         ->helperText(__('a highlighted section above the form, to show some instructions or more details')),
@@ -188,15 +186,7 @@ trait Schemata
                 ->label(__('Display & Access'))
                 ->columns()
                 ->schema([
-                    Grid::make()
-                        ->columnSpan(1)
-                        ->columns(1)
-                        ->schema([
-                            Toggle::make('is_active')
-                                ->label(__('Is Active'))
-                                ->default(1)
-                                ->helperText(__('Activate the form and let users start submissions')),
-                        ]),
+
                     Grid::make()
                         ->columnSpan(1)
                         ->columns(1)
@@ -217,10 +207,7 @@ trait Schemata
                                 ]),
                         ]),
 
-                    TextInput::make('ordering')
-                        ->numeric()
-                        ->label(__('ordering'))
-                        ->default(1),
+
                 ]),
 
 
@@ -247,7 +234,6 @@ trait Schemata
 
             Tabs\Tab::make('design')
                 ->label(__('Design'))
-                ->visible(Bolt::hasPro() && config('zeus-bolt.allow_design'))
                 ->schema([
                     ViewField::make('options.primary_color')
                         ->hiddenLabel()
@@ -324,7 +310,6 @@ trait Schemata
                 ->addActionLabel(__('Add field'))
                 ->extraItemActions([
                     // @phpstan-ignore-next-line
-                    Bolt::hasPro() ? \LaraZeus\BoltPro\Actions\FieldMarkAction::make('marks') : null,
 
                     Action::make('fields options')
                         ->slideOver()
