@@ -17,7 +17,6 @@ class FieldFactory extends Factory
             'description' => null,
             'type' => $this->faker->randomElement([
                 '\\LaraZeus\\Bolt\\Fields\\Classes\\TextInput',
-                '\\LaraZeus\\Bolt\\Fields\\Classes\\Select',
                 '\\LaraZeus\\Bolt\\Fields\\Classes\\Toggle',
                 '\\LaraZeus\\Bolt\\Fields\\Classes\\Textarea',
             ]),

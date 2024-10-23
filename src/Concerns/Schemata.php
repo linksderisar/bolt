@@ -232,7 +232,7 @@ trait Schemata
                         }),
                 ]),
 
-            
+
         ];
 
         $customSchema = Bolt::getCustomSchema('form');
