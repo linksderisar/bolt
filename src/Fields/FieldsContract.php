@@ -88,7 +88,13 @@ abstract class FieldsContract implements Arrayable, Fields
             ->helperText($zeusField->description);
 
         if (optional($zeusField->options)['is_required']) {
+            if(method_exists($component, 'accepted')) {
+                $component = $component->accepted();
+            }
+
             $component = $component->required();
+
+
         }
 
         if (request()->filled($htmlId)) {

@@ -84,6 +84,7 @@ class Select extends FieldsContract
 
         $options = FieldsContract::getFieldCollectionItemsList($zeusField);
 
+        /** @var \Filament\Forms\Components\Select $component */
         $component = $component
             ->searchable()
             ->preload()
