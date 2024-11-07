@@ -4,8 +4,6 @@ namespace LaraZeus\Bolt\Concerns;
 
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Component;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
@@ -18,7 +16,6 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\ViewField;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Guava\FilamentIconPicker\Forms\IconPicker;
@@ -207,9 +204,7 @@ trait Schemata
                                 ]),
                         ]),
 
-
                 ]),
-
 
             Tabs\Tab::make('extensions-tab')
                 ->label(__('Extensions'))
@@ -231,7 +226,6 @@ trait Schemata
                                 });
                         }),
                 ]),
-
 
         ];
 
@@ -307,6 +301,13 @@ trait Schemata
                             return [
                                 Textarea::make('description')
                                     ->label(__('Field Description')),
+
+                                TextInput::make('options.description.description_link')
+                                    ->label(__('Field Description Link'))
+                                    ->url()
+                                    ->live()
+                                    ->helperText(__('Optional, add a link to the description')),
+
                                 Group::make()
                                     ->label(__('Field Options'))
                                     ->schema(function (Get $get) use ($allSections, $component, $arguments) {
@@ -354,6 +355,9 @@ trait Schemata
     {
         return [
             Hidden::make('description'),
+            // This needs to be here in order to populate the options with description link.
+            // Because when you save the popover data, it only saves to the Hidden input, and will not save the field in the database.
+            Hidden::make('options.description.description_link'),
             TextInput::make('name')
                 ->required()
                 ->lazy()

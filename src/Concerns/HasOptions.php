@@ -97,16 +97,18 @@ trait HasOptions
             ->schema([
                 TextInput::make('options.hint.text')
                     ->label(__('Hint Text')),
-                TextInput::make('options.hint.icon-tooltip')
-                    ->label(__('Hint Icon tooltip')),
+// Comented out until  accordion is fixed
+//                IconPicker::make('options.hint.icon')
+//                    ->columns([
+//                        'default' => 1,
+//                        'lg' => 3,
+//                        '2xl' => 5,
+//                    ])
+//                    ->label(__('Hint Icon')),
+//                TextInput::make('options.hint.icon-tooltip')
+//                    ->label(__('Hint Icon tooltip')),
                 ColorPicker::make('options.hint.color')->label(__('Hint Color')),
-                IconPicker::make('options.hint.icon')
-                    ->columns([
-                        'default' => 1,
-                        'lg' => 3,
-                        '2xl' => 5,
-                    ])
-                    ->label(__('Hint Icon')),
+
             ]);
     }
 

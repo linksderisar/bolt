@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\HtmlString;
 use LaraZeus\Bolt\BoltPlugin;
 use LaraZeus\Bolt\Concerns\HasHiddenOptions;
 use LaraZeus\Bolt\Concerns\HasOptions;
@@ -20,6 +21,7 @@ use LaraZeus\Bolt\Facades\Bolt;
 use LaraZeus\Bolt\Models\Field;
 use LaraZeus\Bolt\Models\FieldResponse;
 use LaraZeus\Bolt\Models\Response;
+use Stevebauman\Purify\Facades\Purify;
 
 /** @phpstan-return Arrayable<string,mixed> */
 abstract class FieldsContract implements Arrayable, Fields
@@ -82,18 +84,23 @@ abstract class FieldsContract implements Arrayable, Fields
 
         $htmlId = $zeusField->options['htmlId'] ?? str()->random(6);
 
+        $helperText = $zeusField->description;
+
+        if (optional($zeusField->options)['description']['description_link'] ?? false) {
+            $helperText = new HtmlString( Purify::clean('<a href="' . $zeusField->options['description']['description_link'] . '" target="_blank" class="text-blue-500 underline">' . $zeusField->description . '</a>'));
+        }
+
         $component
             ->label($zeusField->name)
             ->id($htmlId)
-            ->helperText($zeusField->description);
+            ->helperText($helperText);
 
         if (optional($zeusField->options)['is_required']) {
-            if(method_exists($component, 'accepted')) {
+            if (method_exists($component, 'accepted')) {
                 $component = $component->accepted();
             }
 
             $component = $component->required();
-
 
         }
 
@@ -191,7 +198,7 @@ abstract class FieldsContract implements Arrayable, Fields
     }
 
     //@phpstan-ignore-next-line
-    public static function getFieldCollectionItemsList(Field  | array $zeusField): Collection | array
+    public static function getFieldCollectionItemsList(Field | array $zeusField): Collection | array
     {
         if (is_array($zeusField)) {
             $zeusField = (object) $zeusField;
