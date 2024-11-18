@@ -53,7 +53,7 @@ class Field extends Model
         });
     }
 
-    public function isRequired():bool
+    public function isRequired(): bool
     {
         return $this->options['is_required'] ?? false;
     }
