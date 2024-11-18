@@ -53,6 +53,11 @@ class Field extends Model
         });
     }
 
+    public function isRequired():bool
+    {
+        return $this->options['is_required'] ?? false;
+    }
+
     protected static function newFactory(): Factory
     {
         return FieldFactory::new();
