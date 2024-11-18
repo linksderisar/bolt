@@ -22,6 +22,7 @@ trait HasOptions
 {
     public static function visibility(?array $getFields = []): Accordion
     {
+
         if (filled($getFields)) {
             $getFields = collect($getFields)
                 ->pluck('fields')

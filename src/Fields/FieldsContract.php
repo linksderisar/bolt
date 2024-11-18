@@ -87,7 +87,7 @@ abstract class FieldsContract implements Arrayable, Fields
         $helperText = $zeusField->description;
 
         if (optional($zeusField->options)['description']['description_link'] ?? false) {
-            $helperText = new HtmlString( '<a href="' . $zeusField->options['description']['description_link'] . '" target="_blank" class="text-primary underline">' . Purify::clean($zeusField->description) . '</a>');
+            $helperText = new HtmlString('<a href="' . $zeusField->options['description']['description_link'] . '" target="_blank" class="text-primary underline">' . Purify::clean($zeusField->description) . '</a>');
         }
 
         $component

@@ -64,7 +64,7 @@ class Textarea extends FieldsContract
                             self::htmlID(),
                         ]),
                     self::hintOptions(),
-                    self::visibility($sections),
+                    
                     // @phpstan-ignore-next-line
                     Bolt::getCustomSchema('field', resolve(static::class)) ?? [],
                 ]),

@@ -308,6 +308,7 @@ trait Schemata
                                     ->live()
                                     ->helperText(__('Optional, add a link to the description')),
 
+
                                 Group::make()
                                     ->label(__('Field Options'))
                                     ->schema(function (Get $get) use ($allSections, $component, $arguments) {
@@ -358,6 +359,7 @@ trait Schemata
             // This needs to be here in order to populate the options with description link.
             // Because when you save the popover data, it only saves to the Hidden input, and will not save the field in the database.
             Hidden::make('options.description.description_link'),
+            Hidden::make('options.is_live'),
             TextInput::make('name')
                 ->required()
                 ->lazy()

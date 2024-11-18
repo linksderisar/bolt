@@ -48,7 +48,7 @@ class Radio extends FieldsContract
                             self::htmlID(),
                         ]),
                     self::hintOptions(),
-                    self::visibility($sections),
+                    
                     // @phpstan-ignore-next-line
                     Bolt::getCustomSchema('field', resolve(static::class)) ?? [],
                 ]),
@@ -95,6 +95,6 @@ class Radio extends FieldsContract
             $component = $component->default($selected);
         }
 
-        return $component->live();
+        return $component;
     }
 }

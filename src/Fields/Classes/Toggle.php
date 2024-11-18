@@ -78,7 +78,7 @@ class Toggle extends FieldsContract
                             self::htmlID(),
                         ]),
                     self::hintOptions(),
-                    self::visibility($sections),
+                    
                     // @phpstan-ignore-next-line
                     Bolt::getCustomSchema('field', resolve(static::class)) ?? [],
                 ]),
@@ -128,7 +128,7 @@ class Toggle extends FieldsContract
             $component = $component->inline($zeusField->options['is-inline']);
         }
 
-        return $component->live();
+        return $component;
     }
 
     public function TableColumn(Field $field): ?Column
