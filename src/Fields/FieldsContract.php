@@ -211,13 +211,32 @@ abstract class FieldsContract implements Arrayable, Fields
             return $getCollection;
         }
 
-        if (class_exists($zeusField->options['dataSource'])) {
+        //@phpstan-ignore-next-line
+        if ($zeusField instanceof FieldPreset && is_string($zeusField->options)) {
             //@phpstan-ignore-next-line
-            $dataSourceClass = new $zeusField->options['dataSource'];
-            $getCollection = $dataSourceClass->getQuery()->pluck(
-                $dataSourceClass->getValuesUsing(),
-                $dataSourceClass->getKeysUsing()
-            );
+            $zeusField->options = json_decode($zeusField->options, true);
+        }
+
+        // to not braking old dataSource structure
+        //@phpstan-ignore-next-line
+        if ((int) $zeusField->options['dataSource'] !== 0) {
+
+            $getCollection = BoltPlugin::getModel('Collection')::query()
+                ->find($zeusField->options['dataSource'] ?? 0);
+            if ($getCollection === null) {
+                $getCollection = collect();
+            } else {
+                $getCollection = $getCollection->values->pluck('itemValue', 'itemKey');
+            }
+        } else {
+            if (class_exists($zeusField->options['dataSource'])) {
+                //@phpstan-ignore-next-line
+                $dataSourceClass = new $zeusField->options['dataSource'];
+                $getCollection = $dataSourceClass->getQuery()->pluck(
+                    $dataSourceClass->getValuesUsing(),
+                    $dataSourceClass->getKeysUsing()
+                );
+            }
         }
 
         return $getCollection;
