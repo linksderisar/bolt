@@ -8,6 +8,8 @@ use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Get;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use LaraZeus\Bolt\Facades\Bolt;
 use LaraZeus\Bolt\Facades\Extensions;
 use LaraZeus\Bolt\Models\Form;
@@ -35,6 +37,16 @@ trait Designer
         if (optional($zeusForm->options)['show-as'] === 'wizard') {
             return [
                 Wizard::make($sections)
+                    ->submitAction(new HtmlString(Blade::render(
+                        <<<'BLADE'
+                            <x-filament::button
+                                type="submit"
+                                size="sm"
+                            >
+                                Submit
+                            </x-filament::button>
+                        BLADE
+                    )))
                     ->live(condition: $hasSectionVisibility),
                 //->skippable() // todo still not working
             ];
@@ -67,7 +79,9 @@ trait Designer
 
     private static function drawFields(ZeusSection $section, bool $inline, bool $hasSectionVisibility = false): array
     {
-        $hasVisibility = $hasSectionVisibility || $section->fields->pluck('options')->where('visibility.active', true)->isNotEmpty();
+        $hasVisibility = $hasSectionVisibility || $section->fields->pluck('options')
+            ->where('visibility.active', true)
+            ->isNotEmpty();
 
         $fields = [];
 
@@ -101,11 +115,12 @@ trait Designer
     {
         if (optional($zeusForm->options)['show-as'] === 'tabs') {
             $component = Tab::make($section->name)
-              //  ->live()
+                //  ->live()
                 ->icon($section->icon ?? null);
         } elseif (optional($zeusForm->options)['show-as'] === 'wizard') {
             $component = Step::make($section->name)
-             //   ->live()
+
+                //   ->live()
                 ->description($section->description)
                 ->icon($section->icon ?? null);
         } else {
