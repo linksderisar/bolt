@@ -37,16 +37,7 @@ trait Designer
         if (optional($zeusForm->options)['show-as'] === 'wizard') {
             return [
                 Wizard::make($sections)
-                    ->submitAction(new HtmlString(Blade::render(
-                        <<<'BLADE'
-                            <x-filament::button
-                                type="submit"
-                                size="sm"
-                            >
-                                Submit
-                            </x-filament::button>
-                        BLADE
-                    )))
+                    
                     ->live(condition: $hasSectionVisibility),
                 //->skippable() // todo still not working
             ];
