@@ -232,7 +232,8 @@ abstract class FieldsContract implements Arrayable, Fields
             if (class_exists($zeusField->options['dataSource'])) {
                 //@phpstan-ignore-next-line
                 $dataSourceClass = new $zeusField->options['dataSource'];
-                $getCollection = $dataSourceClass->getQuery()->pluck(
+                $getCollection = $dataSourceClass->getQuery()
+                    ->get()->pluck(
                     $dataSourceClass->getValuesUsing(),
                     $dataSourceClass->getKeysUsing()
                 );
