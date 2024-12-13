@@ -86,8 +86,7 @@ class Select extends FieldsContract
 
         /** @var \Filament\Forms\Components\Select $component */
         $component = $component
-            ->searchable()
-            ->preload()
+            ->searchable(false)
             ->options($options);
 
         if (isset($zeusField->options['allow_multiple']) && $zeusField->options['allow_multiple']) {
