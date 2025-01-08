@@ -78,7 +78,7 @@ class Toggle extends FieldsContract
                             self::htmlID(),
                         ]),
                     self::hintOptions(),
-                    
+
                     // @phpstan-ignore-next-line
                     Bolt::getCustomSchema('field', resolve(static::class)) ?? [],
                 ]),
@@ -104,9 +104,16 @@ class Toggle extends FieldsContract
     }
 
     // @phpstan-ignore-next-line
+
+
     public function appendFilamentComponentsOptions($component, $zeusField, bool $hasVisibility = false)
     {
         parent::appendFilamentComponentsOptions($component, $zeusField, $hasVisibility);
+
+        $component = $component->validationMessages([
+            'accepted' => 'This field must be accepted',
+            'required' => 'This field must be accepted',
+        ]);
 
         if (optional($zeusField->options)['on-icon']) {
             $component = $component->onIcon($zeusField->options['on-icon']);
@@ -143,13 +150,13 @@ class Toggle extends FieldsContract
                         $query->where('response', 'like', '%' . $search . '%');
                     });
             })
-            ->getStateUsing(fn (Response $record) => (int) $this->getFieldResponseValue($record, $field))
+            ->getStateUsing(fn(Response $record) => (int)$this->getFieldResponseValue($record, $field))
             ->toggleable();
     }
 
     public function entry(Field $field, FieldResponse $resp): string
     {
-        $response = (int) $resp->response;
+        $response = (int)$resp->response;
 
         return ($response === 1) ? __('yes') : __('no');
     }
@@ -161,7 +168,7 @@ class Toggle extends FieldsContract
             ->state(function (Response $record) use ($field) {
 
                 $response = $record->fieldsResponses()->where('field_id', $field->id)->first();
-                $response = (int) $response->response;
+                $response = (int)$response->response;
 
                 return ($response === 1) ? __('yes') : __('no');
             });
