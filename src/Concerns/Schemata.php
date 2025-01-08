@@ -332,6 +332,9 @@ trait Schemata
                 ])
                 ->schema(static::getFieldsSchema()),
 
+
+
+
             Hidden::make('compact')->default(0)->nullable(),
             Hidden::make('aside')->default(0)->nullable(),
             Hidden::make('icon')->nullable(),
@@ -366,8 +369,7 @@ trait Schemata
                 ->label(__('Field Name')),
             Select::make('type')
                 ->required()
-                ->searchable()
-                ->preload()
+                ->searchable(false)
                 ->getSearchResultsUsing(function (string $search) {
                     return Bolt::availableFields()
                         ->filter(fn ($q) => str($q['title'])->contains($search))
