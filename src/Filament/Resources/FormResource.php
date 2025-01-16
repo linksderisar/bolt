@@ -4,26 +4,14 @@ namespace LaraZeus\Bolt\Filament\Resources;
 
 use Closure;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Pages\Page;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,11 +20,9 @@ use LaraZeus\Bolt\BoltPlugin;
 use LaraZeus\Bolt\Concerns\HasOptions;
 use LaraZeus\Bolt\Concerns\Schemata;
 use LaraZeus\Bolt\Enums\Resources;
-use LaraZeus\Bolt\Facades\Bolt;
 use LaraZeus\Bolt\Filament\Actions\ReplicateFormAction;
 use LaraZeus\Bolt\Filament\Resources\FormResource\Pages;
 use LaraZeus\Bolt\Models\Form as ZeusForm;
-use LaraZeus\ListGroup\Infolists\ListEntry;
 
 class FormResource extends BoltResource
 {
@@ -49,7 +35,7 @@ class FormResource extends BoltResource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static Closure | array | null $boltFormSchema = null;
+    protected static Closure|array|null $boltFormSchema = null;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
@@ -60,11 +46,11 @@ class FormResource extends BoltResource
 
     public static function getNavigationBadge(): ?string
     {
-        if (! BoltPlugin::getNavigationBadgesVisibility(Resources::FormResource)) {
+        if (!BoltPlugin::getNavigationBadgesVisibility(Resources::FormResource)) {
             return null;
         }
 
-        return (string) BoltPlugin::getModel('Form')::query()->count();
+        return (string)BoltPlugin::getModel('Form')::query()->count();
     }
 
     public static function getModelLabel(): string
@@ -88,12 +74,12 @@ class FormResource extends BoltResource
         return $form->schema(static::$boltFormSchema ?? static::getMainFormSchema());
     }
 
-    public function getBoltFormSchema(): array | Closure | null
+    public function getBoltFormSchema(): array|Closure|null
     {
         return static::$boltFormSchema;
     }
 
-    public static function getBoltFormSchemaUsing(array | Closure | null $form): void
+    public static function getBoltFormSchemaUsing(array|Closure|null $form): void
     {
         static::$boltFormSchema = $form;
     }
@@ -114,7 +100,6 @@ class FormResource extends BoltResource
                 TrashedFilter::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
                 ForceDeleteBulkAction::make(),
                 RestoreBulkAction::make(),
             ]);
@@ -151,17 +136,15 @@ class FormResource extends BoltResource
             EditAction::make('edit'),
             ReplicateFormAction::make(),
             RestoreAction::make(),
-            DeleteAction::make(),
-            ForceDeleteAction::make(),
         ];
 
         return [
             Action::make('preview')
-            ->label(__('Preview'))
-            ->icon('heroicon-o-arrow-top-right-on-square')
-            ->tooltip(__('Feel free to click save in the form, it will show only the validation messages.'))
-            ->url(fn ($record) => route('bolt.form.show', $record))
-            ->openUrlInNewTab(),
+                ->label(__('Preview'))
+                ->icon('heroicon-o-arrow-top-right-on-square')
+                ->tooltip(__('Feel free to click save in the form, it will show only the validation messages.'))
+                ->url(fn($record) => route('bolt.form.show', $record))
+                ->openUrlInNewTab(),
             ActionGroup::make($actions)
         ];
     }
