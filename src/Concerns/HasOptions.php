@@ -60,6 +60,10 @@ trait HasOptions
                     ->options(function (Get $get) use ($getFields) {
                         $getRelated = $getFields->where('id', $get('options.visibility.fieldID'))->first();
 
+                        if(! $getRelated) {
+                            return [];
+                        }
+
                         if ($get('options.visibility.fieldID') === null) {
                             return [];
                         }
