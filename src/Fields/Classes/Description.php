@@ -79,7 +79,7 @@ class Description extends FieldsContract
                 '<div class="prose prose-sm">' . Purify::clean($zeusField->options['text'], $allowedOptions) . '</div>'
             ));
         }
-        
+
 
         return $component;
     }

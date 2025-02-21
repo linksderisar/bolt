@@ -13,6 +13,7 @@ use LaraZeus\Bolt\Database\Factories\FieldResponseFactory;
  * @property string $response
  * @property string $updated_at
  * @property int $field_id
+ * @property int $response_id
  * @property int $form_id
  * @property int $grade
  */
