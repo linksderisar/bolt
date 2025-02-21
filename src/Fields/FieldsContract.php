@@ -60,6 +60,11 @@ abstract class FieldsContract implements Arrayable, Fields
         return __('field text for all the text you need');
     }
 
+    public static function hasDescriptionFields():bool
+    {
+        return true;
+    }
+
     public function icon(): string
     {
         return 'iconpark-aligntextcenter-o';

@@ -24,6 +24,7 @@ use LaraZeus\Accordion\Forms\Accordion;
 use LaraZeus\Accordion\Forms\Accordions;
 use LaraZeus\Bolt\BoltPlugin;
 use LaraZeus\Bolt\Facades\Bolt;
+use LaraZeus\Bolt\Fields\FieldsContract;
 
 trait Schemata
 {
@@ -300,19 +301,31 @@ trait Schemata
 
                             return [
                                 Textarea::make('description')
+                                    ->visible(function($get) {
+                                        /** @var ?FieldsContract $class */
+                                        $class = $get('type');
+
+                                        return !(class_exists($class) && !$class::hasDescriptionFields());
+                                    })
                                     ->label(__('Field Description')),
 
                                 TextInput::make('options.description.description_link')
                                     ->label(__('Field Description Link'))
                                     ->url()
                                     ->live()
-                                    ->helperText(__('Optional, add a link to the description')),
+                                    ->visible(function($get) {
+                                        /** @var ?FieldsContract $class */
+                                        $class = $get('type');
 
+                                        return !(class_exists($class) && !$class::hasDescriptionFields());
+                                    })
+                                    ->helperText(__('Optional, add a link to the description')),
 
                                 Group::make()
                                     ->label(__('Field Options'))
                                     ->schema(function (Get $get) use ($allSections, $component, $arguments) {
                                         $class = $get('type');
+
                                         if (class_exists($class)) {
                                             $newClass = (new $class);
                                             if ($newClass->hasOptions()) {
