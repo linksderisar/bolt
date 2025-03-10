@@ -151,7 +151,10 @@ class TextInput extends FieldsContract
     {
         parent::appendFilamentComponentsOptions($component, $zeusField, $hasVisibility);
 
-        if (! empty($zeusField['options']['dateType'])) {
+        if (!empty($zeusField['options']['dateType']) && $zeusField['options']['dateType'] !== 'string') {
+            // If the data type is not a string, we need to call the method to set the data type
+            // If its string, we will not do anything, because this is a text input and if we set string, the numbers will not be allowed
+            // This results in a validation error for fields like age, phone number, etc.
             call_user_func([$component, optional($zeusField['options'])['dateType'] ?? 'string']);
         }
 
